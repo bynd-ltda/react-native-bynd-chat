@@ -1,7 +1,7 @@
 {
   "name": "@abraaobarros/react-native-bynd-chat",
   "title": "React Native Bynd Chat",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "TODO",
   "main": "index.js",
   "files": [
@@ -30,8 +30,13 @@
     "react-native": ">=0.60.0-rc.0 <1.0.x"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.4",
+    "@types/react": "^16.9.41",
+    "@types/react-native": "^0.62.17",
+    "@types/react-test-renderer": "^16.9.2",
     "react": "^16.9.0",
-    "react-native": "^0.61.5"
+    "react-native": "^0.61.5",
+    "typescript": "^3.9.6"
   },
   "dependencies": {
     "axios": "^0.19.2",
