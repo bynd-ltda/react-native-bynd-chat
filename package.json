@@ -1,14 +1,13 @@
 {
   "name": "@abraaobarros/react-native-bynd-chat",
   "title": "React Native Bynd Chat",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "TODO",
   "main": "index.js",
   "files": [
     "README.md",
     "android",
     "index.js",
-    "src/components/index.tsx",
     "ios",
     "react-native-bynd-chat.podspec"
   ],

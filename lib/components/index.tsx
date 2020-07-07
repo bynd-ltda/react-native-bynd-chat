@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 
-const BChat = (props) => {
+const BChat = (props: any) => {
   return (
     <>
       <Text>Test Inicial</Text>
