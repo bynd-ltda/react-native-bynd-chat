@@ -1,7 +1,7 @@
 {
-  "name": "react-native-bynd-chat",
+  "name": "@abraaobarros/react-native-bynd-chat",
   "title": "React Native Bynd Chat",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "TODO",
   "main": "index.js",
   "files": [
@@ -16,19 +16,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-bynd-chat.git",
-    "baseUrl": "https://github.com/github_account/react-native-bynd-chat"
+    "url": "git+https://github.com/bynd-ltda/react-native-bynd-chat.git",
+    "baseUrl": "https://github.com/bynd-ltda/react-native-bynd-chat.git"
   },
   "keywords": [
     "react-native"
   ],
-  "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
-  },
+  "author": "Abraao Barros <abraao@bynd.com.br>",
   "license": "MIT",
   "licenseFilename": "LICENSE",
-  "readmeFilename": "README.md",
   "peerDependencies": {
     "react": "^16.8.1",
     "react-native": ">=0.60.0-rc.0 <1.0.x"
@@ -36,5 +32,14 @@
   "devDependencies": {
     "react": "^16.9.0",
     "react-native": "^0.61.5"
-  }
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "global": "^4.4.0",
+    "npmrc": "^1.1.1"
+  },
+  "bugs": {
+    "url": "https://github.com/bynd-ltda/react-native-bynd-chat/issues"
+  },
+  "homepage": "https://github.com/bynd-ltda/react-native-bynd-chat#readme"
 }
