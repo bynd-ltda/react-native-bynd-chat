@@ -1,7 +1,6 @@
-import { NativeModules } from "react-native";
+import React from 'react';
 
-const { ByndChat } = NativeModules;
+import BChatList from './src';
+export {BChatList};
 
-export { BChat } from "./lib/components/";
-
-export default ByndChat;
+export default BChatList;
