@@ -65,5 +65,8 @@ export const sectionsFrom = <T>(
 };
 
 export const isSameHourAndMinute = (o1: string, o2: string) => {
-  return moment(o1).format('HH:mm') === moment(o2).format('HH:mm');
+  return (
+    moment(o1).format('YYYY-MM-DD HH:mm') ===
+    moment(o2).format('YYYY-MM-DD HH:mm')
+  );
 };

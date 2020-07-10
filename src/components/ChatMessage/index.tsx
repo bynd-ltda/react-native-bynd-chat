@@ -3,7 +3,7 @@ import {IMessage} from '../../services/models';
 import {View, Text, Image} from 'react-native';
 import {parseMessage, decode, isSameHourAndMinute} from '../../helpers';
 import moment from 'moment';
-import {getBChatSetup} from '../../services/requests';
+import {getBChatSetup, getUserInfo} from '../../services/requests';
 
 interface IChatMessageProps extends IMessage {
   previous?: IMessage;
@@ -45,16 +45,10 @@ const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
     return true;
   };
 
-  const isMe = () => {
-    return getBChatSetup().user_id === props.sender.email;
-  };
-
   return (
     <View style={styles.containerMessageStyle}>
       {hasToShowName() && (
-        <Text style={styles.userNameStyle}>
-          {isMe() ? 'Eu' : props.sender.name}
-        </Text>
+        <Text style={styles.userNameStyle}>{props.sender.name}</Text>
       )}
       {props.children}
       {hasToShowTime() && (

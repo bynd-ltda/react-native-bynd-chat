@@ -7,6 +7,7 @@ import {FlatList, Text, SafeAreaView, SectionList} from 'react-native';
 import ChatMessage from '../ChatMessage';
 import {sectionsFrom, previous} from '../../helpers';
 import moment from 'moment';
+import ChatMessageInput from '../ChatMessageInput';
 
 interface IChatDetailProps {}
 
@@ -14,7 +15,11 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
   const route = useRoute();
   const chat = route.params as IChat;
   const [pending, togglePending] = useLoading();
-  const [messages, reload] = useMessages(chat, togglePending, togglePending);
+  const [messages, reload, send] = useMessages(
+    chat,
+    togglePending,
+    togglePending,
+  );
   const sections = sectionsFrom<IMessage>(
     messages,
     (message) => moment(message.create_at).format('YYYY-MM-DD'),
@@ -37,6 +42,7 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
         onRefresh={reload}
         inverted
       />
+      <ChatMessageInput onSubmit={send} />
     </SafeAreaView>
   );
 };

@@ -1,6 +1,6 @@
 import {compareDescDate} from './../helpers';
 import {IMessage} from './../services/models';
-import {getMessages} from './../services/requests';
+import {getMessages, sendMessage} from './../services/requests';
 import React, {useState, useEffect} from 'react';
 import {getChatList} from '../services/requests';
 import {IChat} from '../services/models';
@@ -33,7 +33,7 @@ export const useMessages = (
   chat: IChat,
   start?: () => void,
   end?: () => void,
-): [IMessage[], any] => {
+): [IMessage[], any?, any?] => {
   const [results, setResults] = useState<IMessage[]>(null);
 
   useEffect(() => {
@@ -50,7 +50,12 @@ export const useMessages = (
     );
     end && end();
   };
-  return [results, refresh];
+
+  const send = async (message: IMessage) => {
+    await sendMessage(message, chat);
+    await refresh();
+  };
+  return [results, refresh, send];
 };
 
 export const useLoading = (): [boolean, any] => {
