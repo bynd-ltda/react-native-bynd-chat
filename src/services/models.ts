@@ -9,7 +9,9 @@ export interface IChat {
   unread_count: number;
 }
 
-export interface IMessage {}
+export interface IMessage {
+  text: string;
+}
 
 export interface IUser {
   id: number;

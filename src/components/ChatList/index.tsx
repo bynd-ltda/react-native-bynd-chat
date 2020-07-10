@@ -3,28 +3,29 @@ import {FlatList} from 'react-native';
 import ChatInfoItem from '../ChatInfoItem';
 import {IChat} from '../../services/models';
 import item from '../../chat/item';
-import {useChatList} from '../../hooks';
-
-interface IChatListProps {}
+import {useChatList, useLoading} from '../../hooks';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
 const ChatListComponent: React.FC<IChatListProps> = ({}) => {
-  const [pending, setPending] = useState<boolean>(false);
+  const [pending, togglePending] = useLoading();
+  const navigation = useNavigation();
 
-  const showLoading = () => {
-    setPending(true);
-  };
-  const hideLoading = () => {
-    setPending(false);
-  };
-  const [chats, onReload] = useChatList(showLoading, hideLoading);
-
+  const [chats, onReload] = useChatList(togglePending, togglePending);
   return (
     <>
       <FlatList<IChat>
         data={chats}
         onRefresh={onReload}
         refreshing={pending}
-        renderItem={({item}) => <ChatInfoItem {...item} />}
+        renderItem={({item}) => (
+          <ChatInfoItem
+            {...item}
+            onPress={() => {
+              navigation.navigate('BChatDetail', item);
+            }}
+          />
+        )}
       />
     </>
   );

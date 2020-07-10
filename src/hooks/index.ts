@@ -1,3 +1,4 @@
+import {IMessage} from './../services/models';
 import {getMessages} from './../services/requests';
 import React, {useState, useEffect} from 'react';
 import {getChatList} from '../services/requests';
@@ -24,11 +25,11 @@ export const useChatList = (
 };
 
 export const useMessages = (
-  chat_id: string,
+  chat: IChat,
   start?: () => void,
   end?: () => void,
-) => {
-  const [results, setResults] = useState<IChat[]>(null);
+): [IMessage[], any] => {
+  const [results, setResults] = useState<IMessage[]>(null);
 
   useEffect(() => {
     refresh();
@@ -37,8 +38,17 @@ export const useMessages = (
 
   const refresh = async () => {
     start && start();
-    setResults(await getMessages(chat_id));
+    setResults(await getMessages(`${chat.user.id}`));
     end && end();
   };
   return [results, refresh];
+};
+
+export const useLoading = (): [boolean, any] => {
+  const [pending, setPending] = useState<boolean>(false);
+
+  const togglePending = () => {
+    setPending((prev) => !prev);
+  };
+  return [pending, togglePending];
 };
