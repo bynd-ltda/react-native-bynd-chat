@@ -13,8 +13,6 @@ interface IBChatProps {
 }
 
 export const BChatList: React.FC<IBChatProps> = (props) => {
-  initBChat({server_key: 'Bynd2020!', user_id: 'abraao@bynd.com.br'});
-
   return (
     <SafeAreaView>
       <ChatListComponent />

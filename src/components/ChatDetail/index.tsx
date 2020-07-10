@@ -40,7 +40,6 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
         )}
         refreshing={pending}
         onRefresh={reload}
-        inverted
       />
       <ChatMessageInput onSubmit={send} />
     </SafeAreaView>
