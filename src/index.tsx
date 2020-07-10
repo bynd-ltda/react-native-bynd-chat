@@ -27,10 +27,9 @@ interface IBChatDetail {
 }
 
 export const BChatDetail: React.FC<IBChatDetail> = (props) => {
-  initBChat({server_key: 'Bynd2020!', user_id: 'abraao@bynd.com.br'});
   return (
     <SafeAreaView>
-      <ChatDetailComponent chat={props.chat} />
+      <ChatDetailComponent />
     </SafeAreaView>
   );
 };

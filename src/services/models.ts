@@ -10,7 +10,10 @@ export interface IChat {
 }
 
 export interface IMessage {
+  id: string;
+  create_at: string;
   text: string;
+  sender: IUser;
 }
 
 export interface IUser {

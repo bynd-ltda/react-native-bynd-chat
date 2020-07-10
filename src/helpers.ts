@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {SectionListData} from 'react-native';
 
 export const decode = (text: string): string => {
   try {
@@ -41,4 +42,28 @@ export const parseDate = (date: string): string => {
 
 export const compareDescDate = (i1: string, i2: string) => {
   return moment(i2).valueOf() - moment(i1).valueOf();
+};
+
+export const sectionsFrom = <T>(
+  data: T[],
+  criteria: (item: T) => string,
+  naming?: (section: string) => string,
+): SectionListData<T>[] => {
+  if (!data) return [];
+  let list = {};
+  data.forEach((item) => {
+    if (criteria(item) in list) {
+      list[criteria(item)] = [...list[criteria(item)], item];
+    } else {
+      list[criteria(item)] = [item];
+    }
+  });
+
+  return Object.keys(list).map((section) => {
+    return {title: naming ? naming(section) : section, data: list[section]};
+  });
+};
+
+export const isSameHourAndMinute = (o1: string, o2: string) => {
+  return moment(o1).format('HH:mm') === moment(o2).format('HH:mm');
 };

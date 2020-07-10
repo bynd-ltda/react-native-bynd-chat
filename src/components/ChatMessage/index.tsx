@@ -1,9 +1,14 @@
 import React from 'react';
 import {IMessage} from '../../services/models';
 import {View, Text, Image} from 'react-native';
-import {parseMessage, decode} from '../../helpers';
+import {parseMessage, decode, isSameHourAndMinute} from '../../helpers';
+import moment from 'moment';
+import {getBChatSetup} from '../../services/requests';
 
-interface IChatMessageProps extends IMessage {}
+interface IChatMessageProps extends IMessage {
+  previous?: IMessage;
+  next?: IMessage;
+}
 
 enum MessageType {
   Text,
@@ -18,19 +23,75 @@ const messageFactory = (message: IMessage): MessageType => {
   return MessageType.Text;
 };
 
+const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
+  const hasToShowTime = () => {
+    return (
+      !props.next ||
+      (props.next.sender.id === props.sender.id &&
+        !isSameHourAndMinute(props.next.create_at, props.create_at))
+    );
+  };
+
+  const hasToShowName = (): boolean => {
+    if (props.previous === null) {
+      return true;
+    }
+    if (props.previous.sender.id !== props.sender.id) {
+      return true;
+    }
+    if (isSameHourAndMinute(props.previous.create_at, props.create_at)) {
+      return false;
+    }
+    return true;
+  };
+
+  const isMe = () => {
+    return getBChatSetup().user_id === props.sender.email;
+  };
+
+  return (
+    <View style={styles.containerMessageStyle}>
+      {hasToShowName() && (
+        <Text style={styles.userNameStyle}>
+          {isMe() ? 'Eu' : props.sender.name}
+        </Text>
+      )}
+      {props.children}
+      {hasToShowTime() && (
+        <Text>{parseMessage(moment(props.create_at).format('HH:mm'))}</Text>
+      )}
+    </View>
+  );
+};
+
 const ChatMessageBuilder = (props: IChatMessageProps) => {
   switch (messageFactory(props)) {
     case MessageType.Image:
-      return <ChatImageMessage {...props} />;
+      return (
+        <ChatMessageGroup {...props}>
+          <ChatImageMessage {...props} />
+        </ChatMessageGroup>
+      );
     case MessageType.Favorite:
     case MessageType.Text:
     default:
-      return <ChatTextMessage {...props} />;
+      return (
+        <ChatMessageGroup {...props}>
+          <ChatTextMessage {...props} />
+        </ChatMessageGroup>
+      );
   }
 };
 
 const ChatTextMessage: React.FC<IChatMessageProps> = (props) => {
-  return <Text>{parseMessage(props.text)}</Text>;
+  return <Text> {parseMessage(props.text)}</Text>;
+};
+
+const styles = {
+  containerMessageStyle: {},
+  userNameStyle: {
+    fontWeight: 'bold',
+  },
 };
 
 const ChatImageMessage: React.FC<IChatMessageProps> = ({text}) => {
