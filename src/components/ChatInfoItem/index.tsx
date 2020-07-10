@@ -2,6 +2,7 @@ import React from 'react';
 import {Text, View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {IChat} from '../../services/models';
 import {parseMessage, parseDate} from '../../helpers';
+import {getUser} from '../../services/requests';
 
 interface ChatInfoProps extends IChat {
   containerStyle?: object;
@@ -13,39 +14,54 @@ interface ChatInfoProps extends IChat {
 }
 
 const ChatInfoItem: React.FC<ChatInfoProps> = (props) => {
-  const {user, text, create_at, unread_count, onPress} = props;
+  const {users, name, last_message, created_at, onPress} = props;
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.containerStyle, props.containerStyle]}>
         <View style={styles.startContainerStyle}>
-          <Image
-            style={[styles.photoStyle, props.photoStyle]}
-            source={{uri: user.photo_url}}
-            width={styles.photoStyle.width}
-            height={styles.photoStyle.height}
-          />
+          {Object.keys(users)
+            .filter((id) => `${getUser().id}` !== id)
+            .map((id) => (
+              <Image
+                style={[styles.photoStyle, props.photoStyle]}
+                source={{uri: users[id].photo_url}}
+                width={styles.photoStyle.width}
+                height={styles.photoStyle.height}
+              />
+            ))}
         </View>
         <View style={styles.middleContainerStyle}>
-          <Text style={styles.nameStyle}>{user.name}</Text>
-          <Text style={styles.lastMessageStyle}>{parseMessage(text)}</Text>
+          <Text numberOfLines={1} style={styles.nameStyle}>
+            {name}
+          </Text>
+          <Text style={styles.lastMessageStyle}>
+            {users[last_message.sender_id] &&
+              `${users[last_message.sender_id].name} :`}
+            {parseMessage(last_message.text)}
+          </Text>
         </View>
         <View style={styles.endContainerStyle}>
-          <Text style={styles.dateMessageStyle}>{parseDate(create_at)}</Text>
-          <Text style={styles.badgeContainerStyle}>{unread_count}</Text>
+          <Text style={styles.dateMessageStyle}>{parseDate(created_at)}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-const ImageSize = 60;
+const ImageSize = 30;
 
 const styles = {
   containerStyle: {
     flexDirection: 'row',
     margin: 8,
   },
-  startContainerStyle: {},
+  startContainerStyle: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: 50,
+    justifyContent: 'center',
+    margin: 8,
+  },
   middleContainerStyle: {
     flex: 1,
   },
@@ -54,11 +70,18 @@ const styles = {
     height: ImageSize,
     width: ImageSize,
     borderRadius: ImageSize / 2,
+    borderWidth: 3,
+    borderColor: 'white',
+    margin: -5,
   },
   nameStyle: {
+    flexShrink: 1,
     fontSize: 16,
     fontWeight: 'bold',
-    margin: 8,
+    height: 20,
+    marginTop: 8,
+    marginLeft: 8,
+    marginBottom: 4,
   },
   lastMessageStyle: {
     marginBottom: 8,

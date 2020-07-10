@@ -1,11 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import Chat from './chat';
-import {Text, SafeAreaView} from 'react-native';
-import {getBChatSetup, initBChat, getChatList} from './services/requests';
+import React from 'react';
+import {SafeAreaView} from 'react-native';
 import ChatListComponent from './components/ChatList';
 import ChatDetailComponent from './components/ChatDetail';
 import {IChat} from './services/models';
-import {useChatList} from './hooks';
 
 interface IBChatProps {
   server_key: string;

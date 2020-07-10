@@ -8,8 +8,8 @@ export const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
   const hasToShowTime = () => {
     return (
       !props.next ||
-      (props.next.sender.id === props.sender.id &&
-        !isSameHourAndMinute(props.next.create_at, props.create_at))
+      (props.next.sender_id === props.sender_id &&
+        !isSameHourAndMinute(props.next.created_at, props.created_at))
     );
   };
 
@@ -17,10 +17,13 @@ export const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
     if (props.previous === null) {
       return true;
     }
-    if (props.previous.sender.id !== props.sender.id) {
+    if (props.previous.sender_id !== props.sender_id) {
       return true;
     }
-    if (isSameHourAndMinute(props.previous.create_at, props.create_at)) {
+    if (isSameHourAndMinute(props.previous.created_at, props.created_at)) {
+      return false;
+    }
+    if (!props.sender || props.sender.name) {
       return false;
     }
     return true;
@@ -33,7 +36,7 @@ export const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
       )}
       {props.children}
       {hasToShowTime() && (
-        <Text>{parseMessage(moment(props.create_at).format('HH:mm'))}</Text>
+        <Text>{parseMessage(moment(props.created_at).format('HH:mm'))}</Text>
       )}
     </View>
   );

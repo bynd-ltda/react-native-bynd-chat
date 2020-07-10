@@ -3,9 +3,9 @@ import {useMessages, useLoading} from '../../hooks';
 import {IChat, IMessage} from '../../services/models';
 import {useRoute} from '@react-navigation/native';
 
-import {FlatList, Text, SafeAreaView, SectionList} from 'react-native';
+import {Text, SafeAreaView, SectionList} from 'react-native';
 import ChatMessage from '../ChatMessage';
-import {sectionsFrom, previous} from '../../helpers';
+import {sectionsFrom} from '../../helpers';
 import moment from 'moment';
 import ChatMessageInput from '../ChatMessageInput';
 
@@ -14,6 +14,8 @@ interface IChatDetailProps {}
 const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
   const route = useRoute();
   const chat = route.params as IChat;
+  const users = chat.users;
+
   const [pending, togglePending] = useLoading();
   const [messages, reload, send] = useMessages(
     chat,
@@ -22,7 +24,7 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
   );
   const sections = sectionsFrom<IMessage>(
     messages,
-    (message) => moment(message.create_at).format('YYYY-MM-DD'),
+    (message) => moment(message.created_at).format('YYYY-MM-DD'),
     (section) => moment(section).format('L'),
   );
   return (
@@ -34,6 +36,7 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
         renderItem={({item, section, index}) => (
           <ChatMessage
             {...item}
+            sender={users[item.sender_id]}
             next={index < section.data.length ? section.data[index + 1] : null}
             previous={index > 0 ? section.data[index - 1] : null}
           />

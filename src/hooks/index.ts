@@ -1,7 +1,8 @@
+import {useRoute} from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
 import {compareDescDate} from './../helpers';
 import {IMessage} from './../services/models';
-import {getMessages, sendMessage} from './../services/requests';
-import React, {useState, useEffect} from 'react';
+import {getMessages, sendMessage, setUser} from './../services/requests';
 import {getChatList} from '../services/requests';
 import {IChat} from '../services/models';
 
@@ -18,10 +19,10 @@ export const useChatList = (
 
   const refresh = async () => {
     start && start();
+    const {data, params} = await getChatList();
+    setUser({id: params.auth_user_id});
     setResults(
-      (await getChatList()).sort((o1, o2) =>
-        compareDescDate(o1.create_at, o2.create_at),
-      ),
+      data.sort((o1, o2) => compareDescDate(o1.created_at, o2.created_at)),
     );
     end && end();
   };
@@ -44,8 +45,8 @@ export const useMessages = (
   const refresh = async () => {
     start && start();
     setResults(
-      (await getMessages(`${chat.user.id}`)).sort((o1, o2) =>
-        compareDescDate(o1.create_at, o2.create_at),
+      (await getMessages(`${chat.id}`)).sort((o1, o2) =>
+        compareDescDate(o1.created_at, o2.created_at),
       ),
     );
     end && end();

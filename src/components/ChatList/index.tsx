@@ -1,10 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {FlatList} from 'react-native';
 import ChatInfoItem from '../ChatInfoItem';
 import {IChat} from '../../services/models';
-import item from '../../chat/item';
 import {useChatList, useLoading} from '../../hooks';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 
 const ChatListComponent: React.FC<IChatListProps> = ({}) => {
