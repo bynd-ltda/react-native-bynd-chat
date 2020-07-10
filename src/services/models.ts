@@ -4,8 +4,12 @@ export interface IChat {
   create_at: string;
   chat_id: number;
   group_id: number;
+  last_message: IMessage;
   user: IUser;
+  unread_count: number;
 }
+
+export interface IMessage {}
 
 export interface IUser {
   id: number;

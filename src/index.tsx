@@ -17,6 +17,7 @@ const BChatList: React.FC<IBChatProps> = (props) => {
   return (
     <SafeAreaView>
       <ChatListComponent />
+
       <Text>Chat</Text>
     </SafeAreaView>
   );

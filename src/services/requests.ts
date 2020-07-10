@@ -1,4 +1,4 @@
-import {IChat} from './models';
+import {IChat, IMessage} from './models';
 import axios, {AxiosInstance} from 'axios';
 const BASE_URL = 'https://app.bynd.com.br/api/v2';
 export const ADD_MESSAGE_URL = `chat/message`;
@@ -50,4 +50,14 @@ export const getChatList = async () => {
   return [];
 };
 
-export const getMessages = async () => {};
+export const getMessages = async (chat_id: string) => {
+  try {
+    const response = await _axios.get<IResponseData<IMessage[]>>(
+      FETCH_MESSAGES_CHAT_URL(chat_id),
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error(JSON.stringify(error));
+  }
+  return [];
+};

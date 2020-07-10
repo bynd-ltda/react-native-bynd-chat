@@ -5,10 +5,7 @@ import {IChat} from '../../services/models';
 import item from '../../chat/item';
 import {useChatList} from '../../hooks';
 
-interface IChatListProps {
-  results: IChat[];
-  refresh(): null;
-}
+interface IChatListProps {}
 
 const ChatListComponent: React.FC<IChatListProps> = ({}) => {
   const [pending, setPending] = useState<boolean>(false);
