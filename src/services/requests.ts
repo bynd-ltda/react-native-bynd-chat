@@ -2,11 +2,14 @@ import {IChat, IMessage, IUser} from './models';
 import axios, {AxiosInstance} from 'axios';
 export const ADD_MESSAGE_URL = 'chat/message';
 export const UPLOAD_MESSAGE_URL = 'chat/upload';
+export const CREATE_GROUP = 'chat/groups';
+export const ADD_USER_TO_CHAT = (id: number) => `groups/${id}/add-user`;
+
 export const FETCH_MESSAGES_URL = 'chat/messages';
 export const FETCH_MESSAGES_COUNT_URL = 'chat/info/unread';
 export const FETCH_MESSAGES_CHAT_URL = 'chat/messages';
 export const FETCH_CHAT_INFO = 'chat/info';
-export const FETCH_USER_INFO = '/auth';
+export const FETCH_USERS = '/users';
 
 let _setup: IBChatSetup = null;
 let _axios: AxiosInstance = null;
@@ -89,6 +92,51 @@ export const getMessages = async (chat_id: string) => {
       FETCH_MESSAGES_CHAT_URL,
       {params: {chat_id}},
     );
+    return response.data.data;
+  } catch (error) {
+    console.error(JSON.stringify(error));
+  }
+  return [];
+};
+
+interface IGroupSetup {
+  name?: string;
+  users: string[];
+}
+
+export const createChat = async (setup: IBChatSetup) => {
+  try {
+    const response = await _axios.post(FETCH_MESSAGES_CHAT_URL, {
+      data: setup,
+    });
+    return response.data.data;
+  } catch (error) {
+    console.error(JSON.stringify(error));
+  }
+  return [];
+};
+
+export const addUserToChat = async (chat: IChat, user_email: string) => {
+  try {
+    const response = await _axios.post(ADD_USER_TO_CHAT(chat.id), {
+      data: {
+        email: user_email,
+      },
+    });
+    return response.data.data;
+  } catch (error) {
+    console.error(JSON.stringify(error));
+  }
+  return [];
+};
+
+export const getUsers = async (query: string): Promise<IUser[]> => {
+  try {
+    const response = await _axios.get<IResponseData<IUser[]>>(FETCH_USERS, {
+      params: {
+        search: query,
+      },
+    });
     return response.data.data;
   } catch (error) {
     console.error(JSON.stringify(error));
