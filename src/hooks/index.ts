@@ -1,8 +1,10 @@
+import {compareDescDate} from './../helpers';
 import {IMessage} from './../services/models';
 import {getMessages} from './../services/requests';
 import React, {useState, useEffect} from 'react';
 import {getChatList} from '../services/requests';
 import {IChat} from '../services/models';
+import {sortByDate} from '../helpers';
 
 export const useChatList = (
   start?: () => void,
@@ -17,7 +19,11 @@ export const useChatList = (
 
   const refresh = async () => {
     start && start();
-    setResults(await getChatList());
+    setResults(
+      (await getChatList()).sort((o1, o2) =>
+        compareDescDate(o1.create_at, o2.create_at),
+      ),
+    );
     end && end();
   };
 

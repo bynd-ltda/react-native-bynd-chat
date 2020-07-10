@@ -38,3 +38,7 @@ export const parseDate = (date: string): string => {
   const mDate = moment(date);
   return mDate.format('L');
 };
+
+export const compareDescDate = (i1: string, i2: string) => {
+  return moment(i2).valueOf() - moment(i1).valueOf();
+};
