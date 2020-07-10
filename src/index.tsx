@@ -10,6 +10,7 @@ import {useChatList} from './hooks';
 interface IBChatProps {
   server_key: string;
   user_id: number;
+  base_url: string;
 }
 
 export const BChatList: React.FC<IBChatProps> = (props) => {

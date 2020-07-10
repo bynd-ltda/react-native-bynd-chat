@@ -1,6 +1,5 @@
 import {IChat, IMessage, IUser} from './models';
 import axios, {AxiosInstance} from 'axios';
-const BASE_URL = 'https://app.bynd.com.br/api/v2';
 export const ADD_MESSAGE_URL = `chat/message`;
 export const UPLOAD_MESSAGE_URL = `chat/upload`;
 export const FETCH_MESSAGES_URL = `chat/messages`;
@@ -15,6 +14,7 @@ let _user: IUser = null;
 interface IBChatSetup {
   server_key: string;
   user_id: string;
+  base_url: string;
   axios_setup?: any;
 }
 
@@ -25,7 +25,7 @@ interface IResponseData<T> {
 export const initBChat = (setup: IBChatSetup) => {
   _setup = setup;
   _axios = axios.create({
-    baseURL: BASE_URL,
+    baseURL: setup.base_url,
     headers: {
       Authorization: `Basic ${btoa(`${setup.user_id}:${setup.server_key}`)}`,
     },
