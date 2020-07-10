@@ -10,7 +10,6 @@ import ChatItem from './item';
 import {fetchAll, fetchChatInfo} from '../../redux/actions/chat';
 import {connect} from 'react-redux';
 import moment from 'moment';
-import {getPusherInstance} from '../../redux/middleware/auth';
 import {
   addPusherObserver,
   setUnreadMessages,
@@ -63,7 +62,7 @@ const Chat = ({
 
   const fetchData = () => {
     fetchChatInfo(
-      data => {
+      (data) => {
         setList(
           data.sort((i1, i2) => {
             return (
@@ -78,7 +77,7 @@ const Chat = ({
         );
         setLoading(false);
       },
-      error => {
+      (error) => {
         setLoading(false);
       },
     );
@@ -133,7 +132,7 @@ const Chat = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   chats: state.chat.chats,
   channel:
     state.profile &&
@@ -143,16 +142,11 @@ const mapStateToProps = state => ({
     state.profile && state.profile.loggedUser && state.profile.loggedUser.id,
 });
 
-const ChatWrapper = props => {
+const ChatWrapper = (props) => {
   const [ChatList, setChatList] = useState(null);
 
   useEffect(() => {
-    setChatList(
-      connect(
-        mapStateToProps,
-        {fetchAll, fetchChatInfo},
-      )(Chat),
-    );
+    setChatList(connect(mapStateToProps, {fetchAll, fetchChatInfo})(Chat));
   }, []);
 
   const renderChat = () => {
@@ -169,7 +163,7 @@ const ChatWrapper = props => {
   return <>{renderChat()}</>;
 };
 
-const MaterialHeaderButton = props => (
+const MaterialHeaderButton = (props) => (
   <HeaderButton
     {...props}
     IconComponent={Icon}
@@ -184,7 +178,7 @@ const HeaderRightButton = ({onClick}) => (
   </HeaderButtons>
 );
 
-ChatWrapper.navigationOptions = props => {
+ChatWrapper.navigationOptions = (props) => {
   const onLeftClick = props.navigation.getParam('onLeftClick', () => {});
   return {
     title: 'Mensagens',
