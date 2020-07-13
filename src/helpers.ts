@@ -21,6 +21,9 @@ export const parseMessage = (message: string): string => {
   if (decode(message).includes('/favourite')) {
     return 'Adicionado como favorito';
   }
+  if (decode(message).includes('/created-group')) {
+    return 'Grupo criado';
+  }
 
   if (decode(message).includes('/img')) {
     return '📷 Foto';

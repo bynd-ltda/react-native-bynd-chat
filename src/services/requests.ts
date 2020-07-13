@@ -1,15 +1,15 @@
 import {IChat, IMessage, IUser} from './models';
 import axios, {AxiosInstance} from 'axios';
-export const ADD_MESSAGE_URL = 'chat/message';
-export const UPLOAD_MESSAGE_URL = 'chat/upload';
-export const CREATE_GROUP = 'chat/groups';
+export const ADD_MESSAGE_URL = 'v3/chat/message';
+export const UPLOAD_MESSAGE_URL = 'v3/chat/upload';
+export const CREATE_GROUP = 'v3/chat/groups';
 export const ADD_USER_TO_CHAT = (id: number) => `groups/${id}/add-user`;
 
-export const FETCH_MESSAGES_URL = 'chat/messages';
-export const FETCH_MESSAGES_COUNT_URL = 'chat/info/unread';
-export const FETCH_MESSAGES_CHAT_URL = 'chat/messages';
-export const FETCH_CHAT_INFO = 'chat/info';
-export const FETCH_USERS = '/users';
+export const FETCH_MESSAGES_URL = 'v3/chat/messages';
+export const FETCH_MESSAGES_COUNT_URL = 'v3/chat/info/unread';
+export const FETCH_MESSAGES_CHAT_URL = 'v3/chat/messages';
+export const FETCH_CHAT_INFO = 'v3/chat/info';
+export const FETCH_USERS = 'v2/users';
 
 let _setup: IBChatSetup = null;
 let _axios: AxiosInstance = null;
@@ -104,16 +104,16 @@ interface IGroupSetup {
   users: string[];
 }
 
-export const createChat = async (setup: IBChatSetup) => {
+export const createChat = async (setup: IGroupSetup): Promise<IChat> => {
   try {
-    const response = await _axios.post(FETCH_MESSAGES_CHAT_URL, {
-      data: setup,
+    const response = await _axios.post<IResponseData<IChat>>(CREATE_GROUP, {
+      ...setup,
     });
     return response.data.data;
   } catch (error) {
     console.error(JSON.stringify(error));
   }
-  return [];
+  return null;
 };
 
 export const addUserToChat = async (chat: IChat, user_email: string) => {

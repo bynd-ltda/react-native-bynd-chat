@@ -16,6 +16,7 @@ export interface IMessage {
 export interface IUser {
   id: number;
   name?: string;
+  email?: string;
   photo_url?: string;
   tel?: string;
   last_access?: string;

@@ -1,8 +1,13 @@
 import {useRoute} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {compareDescDate} from './../helpers';
-import {IMessage} from './../services/models';
-import {getMessages, sendMessage, setUser} from './../services/requests';
+import {IMessage, IUser} from './../services/models';
+import {
+  getMessages,
+  sendMessage,
+  setUser,
+  getUsers,
+} from './../services/requests';
 import {getChatList} from '../services/requests';
 import {IChat} from '../services/models';
 
@@ -66,4 +71,25 @@ export const useLoading = (): [boolean, any] => {
     setPending((prev) => !prev);
   };
   return [pending, togglePending];
+};
+
+export const useUsersList = (
+  start?: () => void,
+  end?: () => void,
+): [IUser[], any] => {
+  const [results, setResults] = useState<IUser[]>(null);
+
+  useEffect(() => {
+    search();
+    return () => {};
+  }, []);
+
+  const search = async (query?: string) => {
+    start && start();
+    const data = await getUsers(query);
+    setResults(data);
+    end && end();
+  };
+
+  return [results, search];
 };

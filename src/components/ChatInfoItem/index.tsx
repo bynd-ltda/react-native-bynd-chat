@@ -15,20 +15,32 @@ interface ChatInfoProps extends IChat {
 
 const ChatInfoItem: React.FC<ChatInfoProps> = (props) => {
   const {users, name, last_message, created_at, onPress} = props;
+  const isIndividualChat = (): boolean => {
+    return Object.keys(users).length === 2;
+  };
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.containerStyle, props.containerStyle]}>
         <View style={styles.startContainerStyle}>
           {Object.keys(users)
             .filter((id) => `${getUser().id}` !== id)
-            .map((id) => (
-              <Image
-                style={[styles.photoStyle, props.photoStyle]}
-                source={{uri: users[id].photo_url}}
-                width={styles.photoStyle.width}
-                height={styles.photoStyle.height}
-              />
-            ))}
+            .map((id) =>
+              !isIndividualChat() ? (
+                <Image
+                  style={[styles.photoStyle, props.photoStyle]}
+                  source={{uri: users[id].photo_url}}
+                  width={styles.photoStyle.width}
+                  height={styles.photoStyle.height}
+                />
+              ) : (
+                <Image
+                  style={styles.individualPhotoStyle}
+                  source={{uri: users[id].photo_url}}
+                  width={styles.individualPhotoStyle.width}
+                  height={styles.individualPhotoStyle.height}
+                />
+              ),
+            )}
         </View>
         <View style={styles.middleContainerStyle}>
           <Text numberOfLines={1} style={styles.nameStyle}>
@@ -73,6 +85,13 @@ const styles = {
     borderWidth: 3,
     borderColor: 'white',
     margin: -5,
+  },
+  individualPhotoStyle: {
+    height: ImageSize * 1.5,
+    width: ImageSize * 1.5,
+    borderRadius: ImageSize,
+    borderWidth: 3,
+    borderColor: 'white',
   },
   nameStyle: {
     flexShrink: 1,

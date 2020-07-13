@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {BChatList, BChatDetail} from './src';
+import {BChatList, BChatDetail, BChatCreate, BChatCreateConfirm} from './src';
 import {initBChat} from './src/services/requests';
-export {BChatList, BChatDetail, initBChat};
+export {BChatList, BChatCreate, BChatDetail, BChatCreateConfirm, initBChat};
 
 export default BChatList;
