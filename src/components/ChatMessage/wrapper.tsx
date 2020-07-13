@@ -23,7 +23,7 @@ export const ChatMessageGroup: React.FC<IChatMessageProps> = (props) => {
     if (isSameHourAndMinute(props.previous.created_at, props.created_at)) {
       return false;
     }
-    if (!props.sender || props.sender.name) {
+    if (!props.sender || !props.sender?.name) {
       return false;
     }
     return true;

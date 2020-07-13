@@ -24,6 +24,7 @@ const ChatInfoItem: React.FC<ChatInfoProps> = (props) => {
         <View style={styles.startContainerStyle}>
           {Object.keys(users)
             .filter((id) => `${getUser().id}` !== id)
+            .slice(0, 3)
             .map((id) =>
               !isIndividualChat() ? (
                 <Image
