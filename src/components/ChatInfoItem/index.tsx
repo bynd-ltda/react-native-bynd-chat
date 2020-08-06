@@ -66,7 +66,8 @@ const ImageSize = 30;
 const styles = {
   containerStyle: {
     flexDirection: 'row',
-    margin: 8,
+    backgroundColor:'white',
+    padding: 8,
   },
   startContainerStyle: {
     flexDirection: 'row',

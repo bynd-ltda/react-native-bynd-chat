@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {TextInput, TouchableOpacity, Text, View} from 'react-native';
+import {TextInput, TouchableOpacity, Text, View, Image, StyleSheet} from 'react-native';
 import {IMessage} from '../../services/models';
+import SendIcon from '../../assets/send-icon.png'
 
 interface ChatMessageInputProps {
   onSubmit(message: IMessage): void;
@@ -14,18 +15,20 @@ const ChatMessageInput: React.FC<ChatMessageInputProps> = (props) => {
     setMessage('');
   };
   return (
-    <View>
+    <View style={[styles.inputContainerStyle]}>
+      <View style={styles.inputStyle}>
       <TextInput
-        style={styles.inputContainerStyle}
+        style={styles.inputText}
         placeholder="Digite sua mensagem"
         multiline={true}
         blurOnSubmit={false}
         value={message}
         onChangeText={setMessage}
       />
-      <TouchableOpacity onPress={_onSubmit}>
-        <Text>Enviar</Text>
+      <TouchableOpacity onPress={_onSubmit} style={styles.inputButton}>
+        <Image source={SendIcon}  style={styles.inputButtonImage}/>
       </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -33,11 +36,42 @@ const ChatMessageInput: React.FC<ChatMessageInputProps> = (props) => {
 const styles = {
   inputContainerStyle: {
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 0,
-    shadowRadius: 0,
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
     elevation: 0,
+    zIndex: 100,
+    flexDirection: 'row',
+    alignItems:'center',
+    
   },
+  inputStyle:{
+    backgroundColor:'#F7F7F7',
+    borderRadius: 26,
+    justifyContent: 'flex-start',
+    margin: 16,
+    marginTop:8,
+    marginBottom:8,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems:'flex-start'
+  },
+  inputText:{
+    margin: 11,
+    marginLeft: 22,
+    fontSize: 18,
+    flex: 1
+  }, 
+  inputButton:{
+    alignSelf: 'flex-end'
+  },
+  inputButtonImage:{
+    width: 22,
+    height:22, 
+    margin: 16,
+    marginLeft: 4,
+    alignSelf: 'flex-end'
+  }
 };
 
 export default ChatMessageInput;

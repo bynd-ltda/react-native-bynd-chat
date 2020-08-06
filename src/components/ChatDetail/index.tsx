@@ -11,6 +11,7 @@ import {
   StyleSheet,
   View,
   Platform,
+  ScrollView,
 } from 'react-native';
 import ChatMessage from '../ChatMessage';
 import {sectionsFrom} from '../../helpers';
@@ -36,13 +37,12 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
     (section) => moment(section).format('L'),
   );
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.select({ios: 'padding', android: null})}>
-      <SafeAreaView>
-        <View style={styles.messageListStyle}>
+      <KeyboardAvoidingView behavior='padding' style={{flex:1}}>
           <SectionList<IMessage>
             sections={sections}
-            style={{backgroundColor: 'gray'}}
+            style={{ flex:1, margin:16}}
+            contentContainerStyle={{}}
+            inverted
             renderSectionHeader={({section: {title}}) => <Text>{title}</Text>}
             keyExtractor={(item, key) => `${item.id} + ${key}`}
             renderItem={({item, section, index}) => (
@@ -58,17 +58,15 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
             refreshing={pending}
             onRefresh={reload}
           />
-        </View>
         <ChatMessageInput onSubmit={send} />
-      </SafeAreaView>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   messageListStyle: {
     flexDirection: 'column',
-    backgroundColor: 'gray',
+    flex:1
   },
 });
 

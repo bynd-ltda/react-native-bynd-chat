@@ -42,9 +42,7 @@ interface IBChatDetail {
 
 export const BChatDetail: React.FC<IBChatDetail> = () => {
   return (
-    <SafeAreaView>
       <ChatDetailComponent />
-    </SafeAreaView>
   );
 };
 
