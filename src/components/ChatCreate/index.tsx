@@ -39,6 +39,9 @@ const ChatCreate = () => {
   return (
     <SafeAreaView>
       <View style={styles.containerListStyle}>
+        <View style={styles.inputContainerStyle}>
+          <TextInput style={styles.inputStyle} value={query} placeholder='Escreva o nome do colega' onChangeText={setQuery} />
+        </View>
         <FlatList<IUser>
           refreshing={pending}
           onRefresh={() => search('')}
@@ -93,6 +96,28 @@ const styles = StyleSheet.create({
     padding: 16,
     borderColor: '#7726A6',
     margin:18
-  }
+  },
+  inputContainerStyle: {
+    shadowColor: '#000',
+    shadowOffset: {width: 1, height: 1},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 0,
+    zIndex: 100,
+    flexDirection: 'row',
+    alignItems:'center',
+    borderRadius: 26,
+    margin: 16,
+    backgroundColor:'#fafafa',
+  },
+  inputStyle:{
+    justifyContent: 'flex-start',
+    margin: 16,
+    fontSize: 18,
+    marginTop:16,
+    marginBottom:16,
+    flexDirection: 'row',
+    alignItems:'flex-start'
+  },
 });
 export default ChatCreate;

@@ -40,8 +40,10 @@ const UserComponent: React.FC<UserComponentProps> = (props) => {
 const styles = StyleSheet.create({
   containerStyle: {
     flexDirection: 'row',
-    paddingLeft: 8,
-    paddingRight: 16,
+    paddingLeft: 22,
+    paddingRight: 22,
+    paddingTop: 8,
+    paddingBottom: 8,
     alignItems: 'center',
   },
   imageStyle: {
@@ -51,7 +53,7 @@ const styles = StyleSheet.create({
   },
   middleStyle: {
     margin: 8,
-    flex:1
+    flex: 1
   },
   nameStyle: {
     flexShrink: 1,
@@ -63,10 +65,9 @@ const styles = StyleSheet.create({
   selectedStyle: {
     borderColor: 'purple',
     borderWidth: 1,
-    borderRadius: 12,
-    width: 24,
-    height: 24,
-    fontSize: 16,
+    borderRadius: 15,
+    width: 28,
+    fontSize: 22,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -74,8 +75,8 @@ const styles = StyleSheet.create({
   },
   unselectedStyle: {
     width: 24,
-    height: 24,
-    fontSize: 22,
+    height: 30,
+    fontSize: 30,
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
