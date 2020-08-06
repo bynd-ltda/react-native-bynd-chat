@@ -40,10 +40,11 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
       <KeyboardAvoidingView behavior='padding' style={{flex:1}}>
           <SectionList<IMessage>
             sections={sections}
-            style={{ flex:1, margin:16}}
+            style={{ flex:1, padding:16}}
             contentContainerStyle={{}}
+            stickySectionHeadersEnabled
             inverted
-            renderSectionHeader={({section: {title}}) => <Text>{title}</Text>}
+            renderSectionFooter={({section: {title}}) => <SectionComponent>{title}</SectionComponent>}
             keyExtractor={(item, key) => `${item.id} + ${key}`}
             renderItem={({item, section, index}) => (
               <ChatMessage
@@ -62,6 +63,10 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
       </KeyboardAvoidingView>
   );
 };
+
+const SectionComponent = ({children}) => {
+  return <Text style={{textAlign:'center', color:'#8E8E8E'}}>{moment(children).isValid() && moment(children).format('LL')}</Text>
+}
 
 const styles = StyleSheet.create({
   messageListStyle: {

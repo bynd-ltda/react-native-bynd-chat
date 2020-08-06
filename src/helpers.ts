@@ -33,9 +33,7 @@ export const parseMessage = (message: string): string => {
     return '';
   }
   const decodedMessage = decode(message);
-  return decodedMessage.length > 20
-    ? `${decodedMessage.replace('\n', ' ').slice(0, 15)}...`
-    : decodedMessage.replace('\n', ' ');
+  return decodedMessage
 };
 
 export const parseDate = (date: string): string => {
