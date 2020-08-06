@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {useMessages, useLoading} from '../../hooks';
 import {IChat, IMessage} from '../../services/models';
 import {useRoute} from '@react-navigation/native';
@@ -25,23 +25,37 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
   const chat = route.params as IChat;
   const users = chat.users;
 
+
   const [pending, togglePending] = useLoading();
   const [messages, reload, send] = useMessages(
     chat,
     togglePending,
-    togglePending,
+    togglePending
   );
   const sections = sectionsFrom<IMessage>(
     messages,
     (message) => moment(message.created_at).format('YYYY-MM-DD'),
     (section) => moment(section).format('L'),
   );
+
+  const sectionsList = useRef<SectionList>()
+
+
+  const submit = (message:IMessage) => {
+    send(message)
+    sectionsList.current.scrollToLocation({
+      animated: true,
+      sectionIndex: 0,
+      itemIndex: 0,
+      viewPosition: 0
+    })
+  }
   return (
       <KeyboardAvoidingView behavior='padding' style={{flex:1}}>
           <SectionList<IMessage>
+            ref={ref => sectionsList.current = ref}
             sections={sections}
             style={{ flex:1, padding:16}}
-            contentContainerStyle={{}}
             stickySectionHeadersEnabled
             inverted
             renderSectionFooter={({section: {title}}) => <SectionComponent>{title}</SectionComponent>}
@@ -59,7 +73,7 @@ const ChatDetailComponent: React.FC<IChatDetailProps> = (props) => {
             refreshing={pending}
             onRefresh={reload}
           />
-        <ChatMessageInput onSubmit={send} />
+        <ChatMessageInput onSubmit={submit} />
       </KeyboardAvoidingView>
   );
 };
