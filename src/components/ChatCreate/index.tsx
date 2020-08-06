@@ -9,12 +9,14 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  Image,
 } from 'react-native';
 import {IUser} from '../../services/models';
 import UserComponent from '../User';
 import {add} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
 import { BackgroundColor } from '../../chat/styles';
+import  SearchIcon   from '../../assets/search-icon.png'
 
 const ChatCreate = () => {
   const [pending, toggle] = useLoading();
@@ -40,7 +42,8 @@ const ChatCreate = () => {
     <SafeAreaView>
       <View style={styles.containerListStyle}>
         <View style={styles.inputContainerStyle}>
-          <TextInput style={styles.inputStyle} value={query} placeholder='Escreva o nome do colega' onChangeText={setQuery} />
+          <TextInput style={styles.inputStyle} value={query} placeholder='Escreva o nome do colega' onChangeText={() => setQuery} />
+          <Image source={SearchIcon} style={{width:22, height:22, marginRight:15}}/>
         </View>
         <FlatList<IUser>
           refreshing={pending}
@@ -59,6 +62,7 @@ const ChatCreate = () => {
             />
           )}
         />
+        {selected.length >0 &&
         <View style={styles.buttonViewStyle}>
         <TouchableOpacity
         style={styles.buttonStyle}
@@ -67,7 +71,7 @@ const ChatCreate = () => {
           }>
           <Text style={{color: '#7726A6'}}>Próximo</Text>
         </TouchableOpacity>
-        </View>
+        </View>}
       </View>
     </SafeAreaView>
   );
@@ -116,6 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginTop:16,
     marginBottom:16,
+    flex:1,
     flexDirection: 'row',
     alignItems:'flex-start'
   },
