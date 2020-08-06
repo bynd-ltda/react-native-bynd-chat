@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {TextInput, TouchableOpacity, Text, View, Image, StyleSheet} from 'react-native';
 import {IMessage} from '../../services/models';
 import SendIcon from '../../assets/send-icon.png'
+import SendSelectedIcon from '../../assets/send-icon-selected.png'
 
 interface ChatMessageInputProps {
   onSubmit(message: IMessage): void;
@@ -26,7 +27,7 @@ const ChatMessageInput: React.FC<ChatMessageInputProps> = (props) => {
         onChangeText={setMessage}
       />
       <TouchableOpacity onPress={_onSubmit} style={styles.inputButton}>
-        <Image source={SendIcon}  style={styles.inputButtonImage}/>
+        <Image source={message.length > 0 ? SendSelectedIcon: SendIcon}  style={styles.inputButtonImage}/>
       </TouchableOpacity>
       </View>
     </View>
