@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   middleStyle: {
     margin: 8,
-    flex: 1,
+    flex:1
   },
   nameStyle: {
     flexShrink: 1,

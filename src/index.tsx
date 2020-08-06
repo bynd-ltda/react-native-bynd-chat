@@ -20,7 +20,7 @@ export const BChatList: React.FC<IBChatProps> = () => {
   );
 };
 
-export const BChatCreate: React.FC<IBChatProps> = () => {
+export const BChatCreate: React.FC = () => {
   return (
     <SafeAreaView>
       <ChatCreateComponent />
@@ -28,7 +28,7 @@ export const BChatCreate: React.FC<IBChatProps> = () => {
   );
 };
 
-export const BChatCreateConfirm: React.FC<IBChatProps> = () => {
+export const BChatCreateConfirm: React.FC = () => {
   return (
     <SafeAreaView>
       <ChatCreateConfirmComponent />

@@ -7,67 +7,92 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  View,
+  ScrollView,
 } from 'react-native';
 import {IUser} from '../../services/models';
 import UserComponent from '../User';
 import {add} from 'lodash';
 import {useNavigation} from '@react-navigation/native';
+import { BackgroundColor } from '../../chat/styles';
 
 const ChatCreate = () => {
   const [pending, toggle] = useLoading();
   const [users, search] = useUsersList(toggle, toggle);
-  const [selected, updateSelectedUsers] = useState({});
+  const [selected, updateSelectedUsers] = useState([]);
   const [query, setQuery] = useState('');
 
   const navigation = useNavigation();
 
   const toggleUser = (user: IUser) => {
-    if (selected[user.id] !== undefined) {
+    if (!selected.includes(user.id)) {
       updateSelectedUsers((state) => {
-        return {...state, [user.id]: null};
+        return [...state, user.id];
       });
     } else {
       updateSelectedUsers((state) => {
-        return {...state, [user.id]: user};
+        return [...state.filter(i=>i!=user.id)];
       });
     }
   };
 
   return (
-    <SafeAreaView style={styles.containerStyle}>
-      <TextInput value={query} onChangeText={setQuery} />
-      <FlatList<IUser>
-        refreshing={pending}
-        contentContainerStyle={styles.containerListStyle}
-        onRefresh={() => search('')}
-        data={
-          users &&
-          users.filter((i) =>
-            i.email.toLowerCase().includes(query.toLowerCase()),
-          )
-        }
-        renderItem={({item}) => (
-          <UserComponent
-            {...item}
-            selected={selected[item.id] !== null}
-            onSelect={(user) => toggleUser(user)}
-          />
-        )}
-      />
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate('BChatCreateConfirm', {users: selected})
-        }>
-        <Text>Próximo</Text>
-      </TouchableOpacity>
+    <SafeAreaView>
+      <View style={styles.containerListStyle}>
+        <FlatList<IUser>
+          refreshing={pending}
+          onRefresh={() => search('')}
+          data={
+            users &&
+            users.filter((i) =>
+              i.email.toLowerCase().includes(query.toLowerCase()),
+            )
+          }
+          renderItem={({item}) => (
+            <UserComponent
+              {...item}
+              selected={selected.includes(item.id)}
+              onSelect={(user) => toggleUser(user)}
+            />
+          )}
+        />
+        <View style={styles.buttonViewStyle}>
+        <TouchableOpacity
+        style={styles.buttonStyle}
+          onPress={() =>
+            navigation.navigate('BChatCreateConfirm', {users: selected})
+          }>
+          <Text style={{color: '#7726A6'}}>Próximo</Text>
+        </TouchableOpacity>
+        </View>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   containerStyle: {
-    height: '100%',
+    flexDirection:'column',
+    backgroundColor: 'red',
   },
-  containerListStyle: {},
+  containerListStyle: {
+    height: '98%'
+  },
+  buttonViewStyle:{
+    flexDirection: 'row',
+    justifyContent: 'center',
+    
+  },
+  buttonStyle:{
+    width: 200,
+    alignItems:'center',
+    borderWidth: 1,
+    paddingLeft:36,
+    paddingRight:36,
+    borderRadius: 26,
+    padding: 16,
+    borderColor: '#7726A6',
+    margin:18
+  }
 });
 export default ChatCreate;
